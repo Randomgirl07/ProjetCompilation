@@ -14,9 +14,9 @@ class token:
 
 tokens = [
     "tok_eof", "tok_const", "tok_ident", "tok_plus", "tok_moins", "tok_multi", "tok_div", "tok_modulo", "tok_and", "tok_or",
-    "tok_not", "tok_equal", "tok_not_equal", "tok_low", "tok_gre", "tok_leq", "tok_geq", "tok_par_open", "tok_par_close", "tok_bra_open", "tok_bra_close",
+    "tok_not", "tok_equal", "tok_not_equal", "tok_low", "tok_gre", "tok_leq", "tok_geq", "tok_bra_open", "tok_bra_close", "tok_hook_open", "tok_hook_close",
     "tok_cur_open", "tok_cur_close", "tok_semicolon", "tok_affect", "tok_adress", "tok_int", "tok_void", "tok_return", "tok_if", "tok_for", "tok_else", "tok_do",
-    "tok_while", "tok_continue", "tok_break", "tok_send", "tok_debug", "tok_receive", "tok_comma"
+    "tok_while", "tok_continue", "tok_break", "tok_send", "tok_debug", "tok_receive", "tok_comma",
 ]
 
 lines = []
@@ -28,7 +28,7 @@ lettres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-mots_cles = ["int", "void", "return", "if", "else", "do", "while", "break", "continue", "for"]
+mots_cles = ["int", "void", "return", "if", "else", "do", "while", "break", "continue", "for","debug"]
 
 current_line_idx = 0
 current_char_idx = 0
@@ -102,7 +102,7 @@ def next_token():
     start_y = current_char_idx
 
     char = get_char()
-
+    
     # Sauter les espaces, les tabulations et les commentaires
     while char is not None and (char.isspace() or (char == '/' and peek_char() == '/')):
         if char == '/' and peek_char() == '/':
@@ -205,10 +205,10 @@ def next_token():
                 case "<": T.type_token = tokens.index("tok_low")
                 case ">": T.type_token = tokens.index("tok_gre")
                 case "=": T.type_token = tokens.index("tok_affect")
-                case "(": T.type_token = tokens.index("tok_par_open")
-                case ")": T.type_token = tokens.index("tok_par_close")
-                case "[": T.type_token = tokens.index("tok_bra_open")
-                case "]": T.type_token = tokens.index("tok_bra_close")
+                case "(": T.type_token = tokens.index("tok_bra_open")
+                case ")": T.type_token = tokens.index("tok_bra_close")
+                case "[": T.type_token = tokens.index("tok_hook_open")
+                case "]": T.type_token = tokens.index("tok_hook_close")
                 case "{": T.type_token = tokens.index("tok_cur_open")
                 case "}": T.type_token = tokens.index("tok_cur_close")
                 case ";": T.type_token = tokens.index("tok_semicolon")

@@ -1,0 +1,3 @@
+& C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe c:/Users/user/Desktop/compilation/main.py > AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.txt
+cd msm
+cat .\AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.txt | .\msm.exe -d -d
