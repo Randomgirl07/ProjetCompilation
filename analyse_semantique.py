@@ -60,7 +60,7 @@ def anasem():
 def semnode(N : asyn.nd) :
     global nbVar
     
-    match asyn.nodes[N.type_nd] : 
+    match N.type_nd : 
         case "nd_block":
             begin()
             for i in range(len(N.enfants)):
@@ -70,7 +70,7 @@ def semnode(N : asyn.nd) :
 
         case"nd_affect":
             
-            if (N.enfants[0].type_nd!=asyn.nodes.index("nd_ref")):
+            if (N.enfants[0].type_nd!="nd_ref"):
                 raise Exception("erreur pas de fils ref " )
             for i in range(len(N.enfants)):
                 semnode(N.enfants[i])

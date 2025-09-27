@@ -3,15 +3,19 @@ import analyse_syntaxique as asyn
 import analyse_semantique as asem
 import optimisateur as op
 
+
 nbLab = 0
 ll=0
-
+gen_code_list=[]
 
 def gencode():
+    global gen_code_list
     A=op.optim()
-    print("resn " + str(asem.nbVar))
+    gen_code_list.append("resn "+str(asem.nbVar))
+    
     gennode(A)
-    print("drop  " +str(asem.nbVar))
+    gen_code_list.append("drop "+str(asem.nbVar))
+    
 class nf_element:
     suffixe:str
     prefixe: str
@@ -46,52 +50,68 @@ NF={
 }
 def gennode(A : asyn.nd):
     global nbLab
-    type_node = asyn.nodes[A.type_nd]
+    type_node = A.type_nd
     global NF
     global ll
+    global gen_code_list
     if type_node in NF:
-        print(NF[type_node].prefixe) if NF[type_node].prefixe else None
+
+        gen_code_list.append(NF[type_node].prefixe)if NF[type_node].prefixe else None
+        
         for i in range(len(A.enfants)):
             gennode(A.enfants[i])
-        print(NF[type_node].suffixe) if NF[type_node].suffixe else None
+        gen_code_list.append(NF[type_node].suffixe)if NF[type_node].suffixe else None
+        
         return    
 
 
     match type_node:
         case "nd_const":
-            print("push "+str(A.valeur_nd))
+            gen_code_list.append("push "+str(A.valeur_nd))
+            
         case "nd_affect":
             for i in range(len(A.enfants)):
                 gennode(A.enfants[i])
-            print("set "+str(A.enfants[0].index))
+            gen_code_list.append("set "+str(A.enfants[0].index))
+            
         case "nd_ref":
-            print("get "+str(A.index))
+            gen_code_list.append("get "+str(A.index))
+            
         case "nd_cond" : 
             l = nbLab + 1
             nbLab +=1
             gennode(A.enfants[0])
-            print("jumpf l" + str(l) + "a")
+            gen_code_list.append("jumpf l" + str(l) + "a")
+            
             gennode(A.enfants[1])
-            print("jumpf l" + str(l) + "b")
-            print(".l"+str(l)+"a")
+            gen_code_list.append("jumpf l" + str(l) + "b")
+            
+            gen_code_list.append(".l"+str(l)+"a")
+            
             if (len(A.enfants) == 3) :
                 gennode(A.enfants[2])
-            print(".l"+str(l)+"b")
+            gen_code_list.append(".l"+str(l)+"b")
+            
         case "nd_loop":
             
             temp=ll
             ll=nbLab+1
             nbLab +=1
-            print(".l"+str(ll)+"a")
+            gen_code_list.append(".l"+str(ll)+"a")
+            
             for fils in A.enfants:
                 gennode(fils)
-            print("jump l"+str(ll)+"a")
-            print(".l"+str(ll)+"b")
+            gen_code_list.append("jump l"+str(ll)+"a")
+            
+            gen_code_list.append(".l"+str(ll)+"b")
+            
             ll=temp
         case "nd_break":
-        
-            print("jump l"+str(ll)+ "b")
+            gen_code_list.append("jump l"+str(ll)+ "b")
+           
         case "nd_continue":
-            print("jump l"+str(ll)+ "c")
+            gen_code_list.append("jump l"+str(ll)+ "c")
+            
         case "nd_target":
-            print(".l"+str(ll)+ "c")
+            gen_code_list.append(".l"+str(ll)+ "c")
+            

@@ -1,8 +1,8 @@
 import analyse_lexicale as al
-nodes=["nd_eof","nd_const","nd_ident","nd_plus","nd_moins","nd_multi","nd_div","nd_modulo","nd_and","nd_or","nd_ref",
-"nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_bra_open","nd_bra_close",
-"nd_cur_open","nd_cur_close","nd_semicolon","nd_affect","nd_adress","nd_int","nd_void","nd_return","nd_cond","nd_loop","nd_seq",
-"nd_continue","nd_break","nd_send","nd_debug","nd_receive","nd_comma","nd_sub","nd_add","nd_block","nd_drop","nd_decl","nd_target"]
+# nodes=["nd_eof","nd_const","nd_ident","nd_plus","nd_moins","nd_multi","nd_div","nd_modulo","nd_and","nd_or","nd_ref",
+# "nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_bra_open","nd_bra_close",
+# "nd_cur_open","nd_cur_close","nd_semicolon","nd_affect","nd_adress","nd_int","nd_void","nd_return","nd_cond","nd_loop","nd_seq",
+# "nd_continue","nd_break","nd_send","nd_debug","nd_receive","nd_comma","nd_sub","nd_add","nd_block","nd_drop","nd_decl","nd_target"]
 
         
 class op_element : 
@@ -31,7 +31,7 @@ OP={
     "tok_affect" : op_element(1,1,"nd_affect")
 }
 class nd:
-    type_nd:int
+    type_nd:str
     valeur_nd: int
     chaine_nd: str
     enfants : list
@@ -51,16 +51,7 @@ class nd:
             self.enfants.append(fils1)
         if fils2!=None:
             self.enfants.append(fils2)
-# def afficher(A:nd):
-#     if A.type_nd==nodes.index("nd_const"):
-#         print("(" +A.valeur_nd)
-#     elif  A.type_nd==nodes.index("nd_not"):
-#         print("!" )
-#     elif A.type_nd==nodes.index("nd_neg"):
-#         print("-" +A.valeur_nd)
-#     for enfant in A.enfants:
-#         afficher(enfant)
-#     print(")")
+
 def E(prio : int):
     N = P()
    
@@ -71,7 +62,7 @@ def E(prio : int):
         al.next_token() 
         M = E(OP[op].parg)
         X=N
-        N=nd(nodes.index(OP[op].type_node), None,None)
+        N=nd(OP[op].type_node, None,None)
         N.set_fils2(X,M)
     return N
 
@@ -82,16 +73,16 @@ def I():
     if(al.check("tok_debug")):
         N=E(0)
         al.accept("tok_semicolon")
-        temp=nd(nodes.index("nd_debug"),None,None)
+        temp=nd("nd_debug",None,None)
         temp.set_fils1(N)
         return temp
     elif al.check("tok_cur_open"):
-        N = nd(nodes.index("nd_block"),None,None)
+        N = nd("nd_block",None,None)
         while(not al.check("tok_cur_close")):
             N.set_fils1(I())
         return N
     elif al.check("tok_int") :
-        N = nd(nodes.index("nd_decl"), None, al.T.chaine_token)
+        N = nd("nd_decl", None, al.T.chaine_token)
         al.accept("tok_ident")
         al.accept("tok_semicolon")
         return N
@@ -103,7 +94,7 @@ def I():
         I2 = None
         if(al.check("tok_else")) : 
             I2 = I()
-        N = nd(nodes.index("nd_cond",None,None))
+        N = nd("nd_cond",None,None)
         N.set_fils1(E1)
         N.set_fils1(I1)
         N.set_fils1(I2)
@@ -113,10 +104,10 @@ def I():
         E1=E(0)
         al.accept("tok_bra_close")
         I1=I()
-        N1= nd(nodes.index("nd_loop"),None,None)
-        cnd= nd(nodes.index("nd_cond"),None,None)
-        target= nd(nodes.index("nd_target"),None,None)
-        br= nd(nodes.index("nd_break"),None,None)
+        N1= nd("nd_loop",None,None)
+        cnd= nd("nd_cond",None,None)
+        target= nd("nd_target",None,None)
+        br= nd("nd_break",None,None)
         N1.set_fils1(target)
         cnd.set_fils1(E1)
         cnd.set_fils1(I1)
@@ -125,10 +116,10 @@ def I():
         return N1
     elif al.check("tok_break"):
         al.accept("tok_semicolon")
-        return nd(nodes.index("nd_break"),None,None)
+        return nd("nd_break",None,None)
     elif al.check("tok_continue"):
         al.accept("tok_semicolon")
-        return nd(nodes.index("nd_continue"),None,None)
+        return nd("nd_continue",None,None)
     elif al.check("tok_do") :
         I1 = I()
         al.accept("tok_while")
@@ -136,15 +127,15 @@ def I():
         E1 = E(0)
         al.accept("tok_bra_close")
         al.accept("tok_semicolon")
-        cnd = nd(nodes.index("nd_cond"),None,None)
-        loop = nd(nodes.index("nd_loop"),None,None)
+        cnd = nd("nd_cond",None,None)
+        loop = nd("nd_loop",None,None)
         loop.set_fils1(I1)
-        loop.set_fils1(nd(nodes.index("nd_target"),None,None))
+        loop.set_fils1(nd("nd_target",None,None))
 
-        n=nd(nodes.index("nd_not"),None,None)
+        n=nd("nd_not",None,None)
         n.set_fils1(E1)
         cnd.set_fils1(n)
-        cnd.set_fils1(nd(nodes.index("nd_break"),None,None))
+        cnd.set_fils1(nd("nd_break",None,None))
         loop.set_fils1(cnd)
         return loop
     elif al.check("tok_for"):
@@ -156,14 +147,14 @@ def I():
         E3=E(0)
         al.accept("tok_bra_close")
         I1=I()
-        N=nd(nodes.index("nd_seq"),None,None)
-        cnd=nd(nodes.index("nd_cond"),None,None)
-        seq=nd(nodes.index("nd_seq"),None,None)
-        target=nd(nodes.index("nd_target"),None,None)
-        br= nd(nodes.index("nd_break"),None,None)
-        loop=nd(nodes.index("nd_loop"),None,None)
-        drop1= nd(nodes.index("nd_drop"),None,None)
-        drop2=nd(nodes.index("nd_drop"),None,None)
+        N=nd("nd_seq",None,None)
+        cnd=nd("nd_cond",None,None)
+        seq=nd("nd_seq",None,None)
+        target=nd("nd_target",None,None)
+        br= nd("nd_break",None,None)
+        loop=nd("nd_loop",None,None)
+        drop1= nd("nd_drop",None,None)
+        drop2=nd("nd_drop",None,None)
         seq.set_fils1(I1)
         seq.set_fils1(target)
         drop2.set_fils1(E3)
@@ -183,7 +174,7 @@ def I():
         N=E(0)
 
         al.accept("tok_semicolon")
-        temp=nd(nodes.index("nd_drop"),None,None)
+        temp=nd("nd_drop",None,None)
         temp.set_fils1(N)
         return temp
             
@@ -192,12 +183,12 @@ def P():
     
     if al.check("tok_not") : 
         n = P()
-        a = nd(nodes.index("nd_not"), None,None)
+        a = nd("nd_not", None,None)
         a.set_fils1(n)
         return a
     elif al.check("tok_moins") :
         n = P()
-        a = nd(nodes.index("nd_moins"), None,None)
+        a = nd("nd_moins", None,None)
         a.set_fils1(n)
         return a
     elif al.check("tok_plus") : 
@@ -209,13 +200,13 @@ def P():
 
 def A():
     if (al.check("tok_const")):
-        return nd(nodes.index("nd_const"),al.Last.valeur_token,None)
+        return nd("nd_const",al.Last.valeur_token,None)
     elif (al.check("tok_bra_open")):
         r=E(0)
         al.accept("tok_bra_close")
         return r
     elif(al.check("tok_ident")) :
-        m=nd(nodes.index("nd_ref"), None, al.Last.chaine_token)
+        m=nd("nd_ref", None, al.Last.chaine_token)
         return m
     else:
         raise Exception("Tu t'es trompé..."+al.T.type_token)
