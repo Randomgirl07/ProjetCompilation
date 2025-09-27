@@ -64,10 +64,10 @@ class nd:
 def E(prio : int):
     N = P()
    
-    while al.tokens[al.T.type_token] in OP  : 
-        if OP[al.tokens[al.T.type_token]].prio < prio :
+    while al.T.type_token in OP  : 
+        if OP[al.T.type_token].prio < prio :
             break
-        op = al.tokens[al.T.type_token]
+        op = al.T.type_token
         al.next_token() 
         M = E(OP[op].parg)
         X=N
@@ -79,39 +79,39 @@ def S():
     return A()
 def I():
    
-    if(al.check(al.tokens.index("tok_debug"))):
+    if(al.check("tok_debug")):
         N=E(0)
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_semicolon")
         temp=nd(nodes.index("nd_debug"),None,None)
         temp.set_fils1(N)
         return temp
-    elif al.check(al.tokens.index("tok_cur_open")):
+    elif al.check("tok_cur_open"):
         N = nd(nodes.index("nd_block"),None,None)
-        while(not al.check(al.tokens.index("tok_cur_close"))):
+        while(not al.check("tok_cur_close")):
             N.set_fils1(I())
         return N
-    elif al.check(al.tokens.index("tok_int")) :
+    elif al.check("tok_int") :
         N = nd(nodes.index("nd_decl"), None, al.T.chaine_token)
-        al.accept(al.tokens.index("tok_ident"))
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_ident")
+        al.accept("tok_semicolon")
         return N
-    elif al.check(al.tokens.index("tok_if")) :
-        al.accept(al.tokens.index("tok_bra_open"))
+    elif al.check("tok_if") :
+        al.accept("tok_bra_open")
         E1 = E(0)
-        al.accept(al.tokens.index("tok_bra_close"))
+        al.accept("tok_bra_close")
         I1 = I()
         I2 = None
-        if(al.check(al.tokens.index("tok_else"))) : 
+        if(al.check("tok_else")) : 
             I2 = I()
         N = nd(nodes.index("nd_cond",None,None))
         N.set_fils1(E1)
         N.set_fils1(I1)
         N.set_fils1(I2)
         return N
-    elif al.check(al.tokens.index("tok_while")):
-        al.accept(al.tokens.index("tok_bra_open"))
+    elif al.check("tok_while"):
+        al.accept("tok_bra_open")
         E1=E(0)
-        al.accept(al.tokens.index("tok_bra_close"))
+        al.accept("tok_bra_close")
         I1=I()
         N1= nd(nodes.index("nd_loop"),None,None)
         cnd= nd(nodes.index("nd_cond"),None,None)
@@ -123,19 +123,19 @@ def I():
         cnd.set_fils1(br)
         N1.set_fils1(cnd)
         return N1
-    elif al.check(al.tokens.index("tok_break")):
-        al.accept(al.tokens.index("tok_semicolon"))
+    elif al.check("tok_break"):
+        al.accept("tok_semicolon")
         return nd(nodes.index("nd_break"),None,None)
-    elif al.check(al.tokens.index("tok_continue")):
-        al.accept(al.tokens.indexx("tok_semicolon"))
+    elif al.check("tok_continue"):
+        al.accept("tok_semicolon")
         return nd(nodes.index("nd_continue"),None,None)
-    elif al.check(al.tokens.index("tok_do")) :
+    elif al.check("tok_do") :
         I1 = I()
-        al.accept(al.tokens.index("tok_while"))
-        al.accept(al.tokens.index("tok_bra_open"))
+        al.accept("tok_while")
+        al.accept("tok_bra_open")
         E1 = E(0)
-        al.accept(al.tokens.index("tok_bra_close"))
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_bra_close")
+        al.accept("tok_semicolon")
         cnd = nd(nodes.index("nd_cond"),None,None)
         loop = nd(nodes.index("nd_loop"),None,None)
         loop.set_fils1(I1)
@@ -147,14 +147,14 @@ def I():
         cnd.set_fils1(nd(nodes.index("nd_break"),None,None))
         loop.set_fils1(cnd)
         return loop
-    elif al.check(al.tokens.index("tok_for")):
-        al.accept(al.tokens.index("tok_bra_open"))
+    elif al.check("tok_for"):
+        al.accept("tok_bra_open")
         E1=E(0)
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_semicolon")
         E2=E(0)
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_semicolon")
         E3=E(0)
-        al.accept(al.tokens.index("tok_bra_close"))
+        al.accept("tok_bra_close")
         I1=I()
         N=nd(nodes.index("nd_seq"),None,None)
         cnd=nd(nodes.index("nd_cond"),None,None)
@@ -182,7 +182,7 @@ def I():
         
         N=E(0)
 
-        al.accept(al.tokens.index("tok_semicolon"))
+        al.accept("tok_semicolon")
         temp=nd(nodes.index("nd_drop"),None,None)
         temp.set_fils1(N)
         return temp
@@ -190,17 +190,17 @@ def I():
 
 def P():
     
-    if al.check(al.tokens.index("tok_not")) : 
+    if al.check("tok_not") : 
         n = P()
         a = nd(nodes.index("nd_not"), None,None)
         a.set_fils1(n)
         return a
-    elif al.check(al.tokens.index("tok_moins")) :
+    elif al.check("tok_moins") :
         n = P()
         a = nd(nodes.index("nd_moins"), None,None)
         a.set_fils1(n)
         return a
-    elif al.check(al.tokens.index("tok_plus")) : 
+    elif al.check("tok_plus") : 
         return P()
     else:
         
@@ -208,15 +208,15 @@ def P():
     
 
 def A():
-    if (al.check(al.tokens.index("tok_const"))):
+    if (al.check("tok_const")):
         return nd(nodes.index("nd_const"),al.Last.valeur_token,None)
-    elif (al.check(al.tokens.index("tok_bra_open"))):
+    elif (al.check("tok_bra_open")):
         r=E(0)
-        al.accept(al.tokens.index("tok_bra_close"))
+        al.accept("tok_bra_close")
         return r
-    elif(al.check(al.tokens.index("tok_ident"))) :
+    elif(al.check("tok_ident")) :
         m=nd(nodes.index("nd_ref"), None, al.Last.chaine_token)
         return m
     else:
-        raise Exception("Tu t'es trompé..."+str(al.tokens[al.T.type_token]))
+        raise Exception("Tu t'es trompé..."+al.T.type_token)
         

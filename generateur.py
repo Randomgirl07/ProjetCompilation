@@ -12,11 +12,6 @@ def gencode():
     print("resn " + str(asem.nbVar))
     gennode(A)
     print("drop  " +str(asem.nbVar))
-
-# nodes=["nd_eof","nd_const","nd_ident","nd_plus","nd_moins","nd_multi","nd_div","nd_modulo","nd_and","nd_or",
-# "nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_par_open","nd_par_close","nd_bra_open","nd_bra_close",
-# "nd_cur_open","nd_cur_close","nd_semicolon","nd_affect","nd_adress","nd_int","nd_void","nd_return","nd_if","nd_for","nd_else","nd_do",
-# "nd_while","nd_continue","nd_break","nd_send","nd_debug","nd_receive","nd_comma","nd_sub"]
 class nf_element:
     suffixe:str
     prefixe: str

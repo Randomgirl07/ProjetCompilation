@@ -5,7 +5,7 @@ import generateur as gen
 
 print(".start")
 al.init(r"C:\Users\user\Desktop\test.txt")
-while (al.T.type_token!=al.tokens.index("tok_eof")):
+while (al.T.type_token!="tok_eof"):
   
     gen.gencode()
 print("halt")
