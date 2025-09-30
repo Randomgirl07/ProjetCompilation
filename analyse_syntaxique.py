@@ -1,6 +1,6 @@
 import analyse_lexicale as al
 # nodes=["nd_eof","nd_const","nd_ident","nd_plus","nd_moins","nd_multi","nd_div","nd_modulo","nd_and","nd_or","nd_ref",
-# "nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_bra_open","nd_bra_close",
+# "nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_bra_open","nd_bra_close","nd_appel",
 # "nd_cur_open","nd_cur_close","nd_semicolon","nd_affect","nd_adress","nd_int","nd_void","nd_return","nd_cond","nd_loop","nd_seq",
 # "nd_continue","nd_break","nd_send","nd_debug","nd_receive","nd_comma","nd_sub","nd_add","nd_block","nd_drop","nd_decl","nd_target"]
 
@@ -67,9 +67,44 @@ def E(prio : int):
     return N
 
 def S():
-    return A()
+    Atome = A()
+    if al.check("tok_bra_open") :
+        N = nd("nd_appel",None,None)
+        N.set_fils1(Atome)
+        # boucle
+        if not al.check("tok_bra_close") :
+            while True : 
+                fils = E(0)
+                N.set_fils1(fils)
+                if not al.check("tok_comma") :
+                    break
+            al.accept("tok_bra_close")
+        return N
+    else : 
+        return Atome
+        
+        
+def F():
+    
+    if not al.check("tok_int"):
+        al.accept("tok_void")
+    
+    al.accept("tok_ident")
+    N=nd("nd_func",None,al.Last.chaine_token)
+    al.accept("tok_bra_open")
+    if not al.check("tok_bra_close"):
+        while True:
+            al.accept("tok_int")
+            al.accept("tok_ident")
+            N.set_fils1(nd("nd_decl",None,al.Last.chaine_token))
+            if not al.check("tok_comma"):
+                break 
+        al.accept("tok_bra_close")
+    temp=I()
+    N.set_fils1(temp)
+    return N
+    
 def I():
-   
     if(al.check("tok_debug")):
         N=E(0)
         al.accept("tok_semicolon")
@@ -77,6 +112,7 @@ def I():
         temp.set_fils1(N)
         return temp
     elif al.check("tok_cur_open"):
+        
         N = nd("nd_block",None,None)
         while(not al.check("tok_cur_close")):
             N.set_fils1(I())
@@ -167,8 +203,12 @@ def I():
         N.set_fils1(drop1)
         N.set_fils1(loop)
         return N
-
-
+    elif al.check("tok_return") :
+        E1 = E(0)
+        N = nd("nd_return",None,None)
+        N.set_fils1(E1)
+        al.accept("tok_semicolon")
+        return N
     else:
         
         N=E(0)
@@ -193,6 +233,16 @@ def P():
         return a
     elif al.check("tok_plus") : 
         return P()
+    elif al.check("tok_multi") :
+        n = P()
+        a = nd("nd_ind",None,None)
+        a.set_fils1(n)
+        return a
+    elif al.check("tok_adress") :
+        n = P()
+        a = nd("nd_adress",None,None)
+        a.set_fils1(n)
+        return a
     else:
         
         return S()

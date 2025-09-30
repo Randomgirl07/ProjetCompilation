@@ -70,10 +70,15 @@ def gennode(A : asyn.nd):
             gen_code_list.append("push "+str(A.valeur_nd))
             
         case "nd_affect":
-            for i in range(len(A.enfants)):
-                gennode(A.enfants[i])
-            gen_code_list.append("set "+str(A.enfants[0].index))
-            
+            if(A.enfants[0].type_nd == "nd_ref") :
+                for i in range(len(A.enfants)):
+                    gennode(A.enfants[i])
+                gen_code_list.append("set "+str(A.enfants[0].index))
+            elif(A.enfants[0].type_nd == "nd_ind") :
+                gennode(A.enfants[1])
+                gen_code_list.append("dup")
+                gennode(A.enfants[0].enfants[0])
+                gen_code_list.append("write")
         case "nd_ref":
             gen_code_list.append("get "+str(A.index))
             
@@ -114,4 +119,25 @@ def gennode(A : asyn.nd):
             
         case "nd_target":
             gen_code_list.append(".l"+str(ll)+ "c")
-            
+        case "nd_return":
+            for enfant in A.enfants:
+                gennode(enfant)
+            gen_code_list.append("ret")
+        case "nd_func":
+            gen_code_list.append("."+A.chaine_nd)
+            gen_code_list.append("resn "+A.type_nd)
+            for enfant in A.enfants:
+                gennode(enfant)
+            gen_code_list.append("push 0")
+            gen_code_list.append("ret")    
+        case "nd_ind" :
+            gennode(A.enfants[0])
+            gen_code_list.append("read")
+        case "nd_adress" :
+            gen_code_list.append("prep start")
+            gen_code_list.append("swap")
+            gen_code_list.append("drop 1")
+            gen_code_list.append("push 1")
+            gen_code_list.append("sub")
+            gen_code_list.append("push"+str(A.enfants[0].index))
+            gen_code_list.append("sub")

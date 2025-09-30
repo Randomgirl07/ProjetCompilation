@@ -1,0 +1,13 @@
+int somme(int a, int b){
+    int z;
+    z=0;
+    int c ;
+    return a+b;
+}
+int main(){
+int x;
+x = 5;
+somme(3,5);
+debug x;
+}
+

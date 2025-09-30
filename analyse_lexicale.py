@@ -220,6 +220,7 @@ def next_token():
     # Mettre à jour la position de fin du token
     T.x = current_line_idx
     T.y = current_char_idx
+    
 
 def check(type_token: str) :
     global T
@@ -231,4 +232,4 @@ def check(type_token: str) :
 def accept(type_token: str) : 
     global T
     if not check(type_token) : 
-        raise Exception("Tu t'es trompé, j'attendais " + type_token + " et j'ai eu " + T.type_token + " à la ligne " + str(T.x) + " colonne " + str(T.y))
+        raise Exception("Tu t'es trompé, j'attendais " + type_token + " et j'ai eu " + T.type_token + " à la ligne " + str(T.x + 1) + " colonne " + str(T.y + 1))

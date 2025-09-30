@@ -3,6 +3,7 @@ class sym :
     
     name : str
     index: int 
+    type_sem:str
     def __init__(self,n):
         self.name=n
 tab=[]
@@ -17,12 +18,15 @@ def begin():
     top+=1
 def end():
     global top
+    print("end: top: "+str(top))
     top-=1
 
 def declare(name:str):
     global tab
     global I
     global top 
+    print("top declar "+str(top))
+    print("name : "+name)
     indice_fin_T=I[top-1]
     indice_debut_T=I[top-2]
    
@@ -38,21 +42,18 @@ def find(name:str):
 
     
     i= I[top-1]-1
-  
+    print("top: "+str(top))
     while i>=0:
+        print(name, "==", tab[i].name, "???"+" i=: "+str(i))
         if tab[i].name == name:
             return tab[i]
         i=i-1
     raise Exception("name pas trouvé")
-    # for i in range(top-1 , -1, -1): 
-        
-    #     if tab[i].name == name:
-    #         return tab[i]
-    # raise Exception("name pas trouvé")
+ 
 
 def anasem():
     global nbVar
-    A = asyn.I()
+    A = asyn.F()
     nbVar = 0
     semnode(A)
     return A
@@ -84,6 +85,15 @@ def semnode(N : asyn.nd) :
             
             s = find(N.chaine_nd)  
             N.index = s.index
+        case "nd_func" :
+            declare(N.chaine_nd)
+            nbVar = 0
+            begin()
+            #boucle sur les enfants
+            for enfant in N.enfants :
+                semnode(enfant)
+            end()
+            N.valeur_nd = nbVar - (len(N.enfants) - 1)
         case _:   
             for i in range(len(N.enfants)):
                 semnode(N.enfants[i])
