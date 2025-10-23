@@ -1,0 +1,645 @@
+int fibo(int n){
+  if(n<=1) {return 1;}
+  else {return fibo(n-2)+fibo(n-1) ;}
+}
+
+void print(int n){
+    int d;
+    d= n%10;
+    int r;
+    r=n/10;
+    if(r!=0){ print(r);}
+    send (d+48);
+}
+
+void println(int v){
+    print(v);
+    send 10;
+}
+
+void swap (int *tab){
+int temp;
+temp=tab[0];
+tab[0]=tab[1];
+tab[1]=temp;
+}
+int power(int a, int b){
+    int i;
+    int res;
+    res=1;
+    for(i=0;i<b;i=i+1){res=a*res;}
+    return res;
+}
+void testNestedSameTypeLoops(int n) {
+    int totalSuccesses;
+    totalSuccesses = 0;
+    int res;
+    int i;
+    int j;
+    int k;
+
+    // Test 1: Boucles 'for' imbriquées
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        for (j = 0; j < n; j = j + 1) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Test 2: Boucles 'while' imbriquées
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Test 3: Boucles 'do-while' imbriquées
+    res = 0;
+    // Gère le cas où n=0, pour lequel la boucle ne doit rien faire.
+    // Sans ce if, res serait 1 et le test échouerait pour n=0.
+    if (n > 0) {
+        i = 0;
+        do {
+            j = 0;
+            do {
+                k = 0;
+                do {
+                    res = res + 1;
+                    k = k + 1;
+                } while (k < n);
+                j = j + 1;
+            } while (j < n);
+            i = i + 1;
+        } while (i < n);
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // TEST FINAL : Imprime 1 uniquement si les 3 tests de boucles imbriquées ont réussi.
+    if (totalSuccesses == 3) {
+        print(1);
+    }
+}
+void testAllSingleLoops(int n) {
+    int totalSuccesses;
+    totalSuccesses = 0;
+    int res;
+    int i;
+
+    // Test 1: Boucle 'for'
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        res = res + 1;
+    }
+    if (res == n) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Test 2: Boucle 'while'
+    res = 0;
+    i = 0;
+    while (i < n) {
+        res = res + 1;
+        i = i + 1;
+    }
+    if (res == n) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Test 3: Boucle 'do-while'
+    // Note : Ce test échouera si n = 0, car la boucle s'exécute au moins une fois.
+    // C'est le comportement attendu de do-while.
+    res = 0;
+    i = 0;
+    if (n > 0) { // On ajoute cette condition pour gérer le cas n=0
+        do {
+            res = res + 1;
+            i = i + 1;
+        } while (i < n);
+    }
+    if (res == n) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+    
+    // TEST FINAL : Imprime 1 uniquement si les 3 tests ont réussi.
+    if (totalSuccesses == 3) {
+        print(1);
+    }
+}
+
+void testAllLoopCombinations(int n) {
+    int totalSuccesses;
+    totalSuccesses = 0;
+    int res;
+    int i;
+    int j;
+    int k;
+
+    // Combinaison 1: for / for / for
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        for (j = 0; j < n; j = j + 1) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 2: for / for / while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 3: for / for / do-while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 4: for / while / for
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        while (j < n) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 5: for / while / while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        }
+    }
+    if (res == power(n, 3)) {
+       totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 6: for / while / do-while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        }
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 7: for / do-while / for
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        do {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+    }
+    if (res == power(n, 3)) {
+       totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 8: for / do-while / while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        do {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 9: for / do-while / do-while
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        j = 0;
+        do {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        } while (j < n);
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 10: while / for / for
+    res = 0;
+    i = 0;
+    while (i < n) {
+        for (j = 0; j < n; j = j + 1) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses+ 1;
+    }
+
+    // Combinaison 11: while / for / while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 12: while / for / do-while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 13: while / while / for
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 14: while / while / while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+       totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 15: while / while / do-while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 16: while / do-while / for
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        do {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 17: while / do-while / while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        do {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 18: while / do-while / do-while
+    res = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        do {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    }
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 19: do-while / for / for
+    res = 0;
+    i = 0;
+    do {
+        for (j = 0; j < n; j = j + 1) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+       totalSuccesses = totalSuccesses+ 1;
+    }
+
+    // Combinaison 20: do-while / for / while
+    res = 0;
+    i = 0;
+    do {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+       totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 21: do-while / for / do-while
+    res = 0;
+    i = 0;
+    do {
+        for (j = 0; j < n; j = j + 1) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 22: do-while / while / for
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        while (j < n) {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses+ 1;
+    }
+
+    // Combinaison 23: do-while / while / while
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 24: do-while / while / do-while
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        while (j < n) {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        }
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses= totalSuccesses + 1;
+    }
+
+    // Combinaison 25: do-while / do-while / for
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        do {
+            for (k = 0; k < n; k = k + 1) {
+                res = res + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 26: do-while / do-while / while
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        do {
+            k = 0;
+            while (k < n) {
+                res = res + 1;
+                k = k + 1;
+            }
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+        totalSuccesses = totalSuccesses + 1;
+    }
+
+    // Combinaison 27: do-while / do-while / do-while
+    res = 0;
+    i = 0;
+    do {
+        j = 0;
+        do {
+            k = 0;
+            do {
+                res = res + 1;
+                k = k + 1;
+            } while (k < n);
+            j = j + 1;
+        } while (j < n);
+        i = i + 1;
+    } while (i < n);
+    if (res == power(n, 3)) {
+       totalSuccesses= totalSuccesses + 1;
+    }
+
+    // TEST FINAL : Imprime 1 uniquement si les 27 combinaisons ont réussi.
+    if (totalSuccesses == 27) {
+        println(1);
+    }
+}
+int * malloc(int n){
+    int *p;
+    p= *0;
+    *0 =*0 +n;
+    return p;
+}
+int main(){
+    int n;
+    n=4;
+    int totalSuccesses;
+    totalSuccesses = 0;
+    int res;
+    int i;
+
+    // Test 1: Boucle 'for'
+    res = 0;
+    for (i = 0; i < n; i = i + 1) {
+        res = res + 1;
+    }
+    if (res == n) {
+        send 48;
+    }
+
+
+   
+}

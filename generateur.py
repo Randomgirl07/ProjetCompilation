@@ -45,8 +45,8 @@ NF={
     "nd_block":nf_element("",""),
     "nd_seq":nf_element("",""),
     "nd_drop":nf_element("drop 1",""),
-    "nd_decl":nf_element("","")
-
+    "nd_receive":nf_element("recv",""),
+    "nd_send":nf_element("send","")
 }
 def gennode(A : asyn.nd):
     global nbLab
@@ -96,7 +96,12 @@ def gennode(A : asyn.nd):
             if (len(A.enfants) == 3) :
                 gennode(A.enfants[2])
             gen_code_list.append(".l"+str(l)+"b")
-            
+        case "nd_appel":
+            gen_code_list.append("prep "+A.enfants[0].chaine_nd)
+            for i in range(1,len(A.enfants)):
+                gennode(A.enfants[i])
+            gen_code_list.append("call "+str(len(A.enfants)-1))
+
         case "nd_loop":
             
             temp=ll
@@ -124,8 +129,9 @@ def gennode(A : asyn.nd):
                 gennode(enfant)
             gen_code_list.append("ret")
         case "nd_func":
+          
             gen_code_list.append("."+A.chaine_nd)
-            gen_code_list.append("resn "+A.type_nd)
+            gen_code_list.append("resn "+str(A.valeur_nd))
             for enfant in A.enfants:
                 gennode(enfant)
             gen_code_list.append("push 0")
@@ -133,11 +139,12 @@ def gennode(A : asyn.nd):
         case "nd_ind" :
             gennode(A.enfants[0])
             gen_code_list.append("read")
+        
         case "nd_adress" :
             gen_code_list.append("prep start")
             gen_code_list.append("swap")
             gen_code_list.append("drop 1")
             gen_code_list.append("push 1")
             gen_code_list.append("sub")
-            gen_code_list.append("push"+str(A.enfants[0].index))
+            gen_code_list.append("push "+str(A.enfants[0].index))
             gen_code_list.append("sub")

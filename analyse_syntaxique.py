@@ -70,7 +70,10 @@ def S():
     Atome = A()
     if al.check("tok_bra_open") :
         N = nd("nd_appel",None,None)
+        #2 c'est pour fonction et 1 c'est pour var
+        Atome.valeur_nd = 2
         N.set_fils1(Atome)
+     
         # boucle
         if not al.check("tok_bra_close") :
             while True : 
@@ -80,21 +83,36 @@ def S():
                     break
             al.accept("tok_bra_close")
         return N
+    elif al.check("tok_hook_open"):
+        exp=E(0)
+        al.accept("tok_hook_close")
+        N=nd("nd_ind",None,None)
+        add_nd=nd("nd_add",None,None)
+        add_nd.set_fils2(Atome,exp)
+        N.set_fils1(add_nd)
+        return N
+        
+
     else : 
         return Atome
         
         
 def F():
-    
+  
     if not al.check("tok_int"):
         al.accept("tok_void")
-    
+    while(True):
+        if  al.check("tok_multi")==False:
+            break
     al.accept("tok_ident")
     N=nd("nd_func",None,al.Last.chaine_token)
     al.accept("tok_bra_open")
     if not al.check("tok_bra_close"):
         while True:
             al.accept("tok_int")
+            while(True):
+                if  al.check("tok_multi")==False:
+                    break
             al.accept("tok_ident")
             N.set_fils1(nd("nd_decl",None,al.Last.chaine_token))
             if not al.check("tok_comma"):
@@ -102,6 +120,7 @@ def F():
         al.accept("tok_bra_close")
     temp=I()
     N.set_fils1(temp)
+    
     return N
     
 def I():
@@ -111,6 +130,12 @@ def I():
         temp=nd("nd_debug",None,None)
         temp.set_fils1(N)
         return temp
+    elif al.check("tok_send") :
+        N = E(0)
+        al.accept("tok_semicolon")
+        temp = nd("nd_send",None,None)
+        temp.set_fils1(N)
+        return temp
     elif al.check("tok_cur_open"):
         
         N = nd("nd_block",None,None)
@@ -118,6 +143,9 @@ def I():
             N.set_fils1(I())
         return N
     elif al.check("tok_int") :
+        while(True):
+            if  al.check("tok_multi")==False:
+                break
         N = nd("nd_decl", None, al.T.chaine_token)
         al.accept("tok_ident")
         al.accept("tok_semicolon")
@@ -209,6 +237,7 @@ def I():
         N.set_fils1(E1)
         al.accept("tok_semicolon")
         return N
+    
     else:
         
         N=E(0)
@@ -256,8 +285,10 @@ def A():
         al.accept("tok_bra_close")
         return r
     elif(al.check("tok_ident")) :
-        m=nd("nd_ref", None, al.Last.chaine_token)
+        m=nd("nd_ref", 1, al.Last.chaine_token)
         return m
+    elif (al.check("tok_recv")):
+        nd("nd_recv",None,None)
     else:
         raise Exception("Tu t'es trompé..."+al.T.type_token)
         

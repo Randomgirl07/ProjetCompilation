@@ -28,7 +28,7 @@ lettres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-mots_cles = ["int", "void", "return", "if", "else", "do", "while", "break", "continue", "for","debug"]
+mots_cles = ["int", "void", "return", "if", "else", "do", "while", "break", "continue", "for","debug", "send","recv"]
 
 current_line_idx = 0
 current_char_idx = 0
@@ -220,6 +220,7 @@ def next_token():
     # Mettre à jour la position de fin du token
     T.x = current_line_idx
     T.y = current_char_idx
+    
     
 
 def check(type_token: str) :
