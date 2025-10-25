@@ -95,7 +95,7 @@ void testNestedSameTypeLoops(int n) {
 
     // TEST FINAL : Imprime 1 uniquement si les 3 tests de boucles imbriquées ont réussi.
     if (totalSuccesses == 3) {
-        print(1);
+        println(1);
     }
 }
 void testAllSingleLoops(int n) {
@@ -141,7 +141,7 @@ void testAllSingleLoops(int n) {
     
     // TEST FINAL : Imprime 1 uniquement si les 3 tests ont réussi.
     if (totalSuccesses == 3) {
-        print(1);
+        println(1);
     }
 }
 
@@ -623,6 +623,72 @@ int * malloc(int n){
     *0 =*0 +n;
     return p;
 }
+
+void testerLogiqueConditionnelle(int n) {
+    int nombreSuccesTotal;
+    nombreSuccesTotal = 0;
+    
+    // --- Début de la série de tests ---
+
+    // Test 1: Conditions simples en chaîne
+    // Ces 'if' sont indépendants les uns des autres.
+    if (n > 0) {
+        nombreSuccesTotal++; // n est positif
+    }
+    if (n % 2 == 0) {
+        nombreSuccesTotal++; // n est pair
+    }
+
+    // Test 2: Structure if-else if-else
+    // Un seul de ces blocs sera exécuté.
+    if (n == 10) {
+        nombreSuccesTotal++;
+    } else if (n > 10 && n < 20) {
+        nombreSuccesTotal = nombreSuccesTotal + 2; // Bonus pour cet intervalle
+    } else {
+        nombreSuccesTotal++; // Pour tous les autres cas
+    }
+
+    // Test 3: Imbrication de if-else
+    // Évalue des conditions dépendantes les unes des autres.
+    if (n > 5) {
+        nombreSuccesTotal++; // Condition principale réussie
+
+        // Début du bloc imbriqué
+        if (n % 3 == 0) {
+            nombreSuccesTotal++; // Condition imbriquée : n est multiple de 3
+        } else {
+            nombreSuccesTotal++; // Condition imbriquée alternative
+        }
+    } else {
+        // Ce bloc s'exécute uniquement si n <= 5
+        if (n == 5) {
+            nombreSuccesTotal = nombreSuccesTotal + 5; // Bonus spécial pour la valeur 5
+        }
+    }
+
+    // Test 4: Condition complexe avec opérateurs logiques (ET, OU)
+    if ((n > 20 && n < 40) || n == 7) {
+        nombreSuccesTotal++;
+    }
+    
+    // Test 5: Autre if imbriqué pour un scénario différent
+    int deuxiemeNombre;
+    deuxiemeNombre = 100;
+    if (deuxiemeNombre > n) {
+        nombreSuccesTotal++;
+        
+        if (n > 50) {
+            // Condition non remplie si n=12 ou n=7, mais remplie si n=50
+            nombreSuccesTotal = nombreSuccesTotal + 10;
+        }
+    }
+
+    // À la fin de tous les tests, on affiche le résultat final
+    println(nombreSuccesTotal);
+}
+
+
 int main(){
     int n;
     n=4;
@@ -630,16 +696,16 @@ int main(){
     totalSuccesses = 0;
     int res;
     int i;
+    testAllLoopCombinations(n);
+    testAllSingleLoops(n);
+    testNestedSameTypeLoops(n);
 
-    // Test 1: Boucle 'for'
-    res = 0;
-    for (i = 0; i < n; i = i + 1) {
-        res = res + 1;
-    }
-    if (res == n) {
-        send 48;
-    }
-
+    
 
    
 }
+
+
+
+
+

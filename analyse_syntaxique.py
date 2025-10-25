@@ -143,13 +143,18 @@ def I():
             N.set_fils1(I())
         return N
     elif al.check("tok_int") :
+        seq=nd("nd_seq",None,None)
         while(True):
-            if  al.check("tok_multi")==False:
-                break
-        N = nd("nd_decl", None, al.T.chaine_token)
-        al.accept("tok_ident")
+            while(True):
+                if  al.check("tok_multi")==False:
+                    break
+            N = nd("nd_decl", None, al.T.chaine_token)
+            seq.set_fils1(N)
+            al.accept("tok_ident")
+            if not al.check("tok_comma"):
+                break      
         al.accept("tok_semicolon")
-        return N
+        return seq
     elif al.check("tok_if") :
         al.accept("tok_bra_open")
         E1 = E(0)

@@ -1,0 +1,44 @@
+resn 1
+.main
+resn 1
+push 5
+dup
+set 0
+drop 1
+get 0
+push 1
+cmpgt
+jumpf l1a
+get 0
+push 5
+cmpeq
+jumpf l2a
+push 2
+dup
+set 0
+drop 1
+jump l2b
+.l2a
+push 0
+dup
+set 0
+drop 1
+.l2b
+jump l1b
+.l1a
+push 3
+dup
+set 0
+drop 1
+.l1b
+get 0
+push 48
+add
+send
+push 0
+ret
+drop 1
+.start
+prep main
+call 0
+halt

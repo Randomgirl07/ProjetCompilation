@@ -1,11 +1,14 @@
 int main(){
-    int i;
-    while(i<10){
-        i=i+1;
-        send 48;
-    }
-   debug i;
-   
-
-   
+    int n,k,c;
+    n=k=c=4;
+    send n+48;
+    send 10;
+    send k+48;
+    send 10;
+    send c+48;
 }
+
+
+
+
+
