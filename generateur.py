@@ -73,7 +73,6 @@ def gennode(A : asyn.nd):
             if(A.enfants[0].type_nd == "nd_ref") :
                 for i in range(len(A.enfants)):
                     gennode(A.enfants[i])
-                #gennode(A.enfants[1])
                 gen_code_list.append("set "+str(A.enfants[0].index))
             elif(A.enfants[0].type_nd == "nd_ind") :
                 gennode(A.enfants[1])

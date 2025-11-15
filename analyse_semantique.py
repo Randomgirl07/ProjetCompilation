@@ -14,32 +14,13 @@ class sym :
 pile=[]
 top=1
 nbVar = 0
+
 def begin():
     pile.append({})
+
 def end():
     pile.pop()
 
-
-# def begin():
-#     global tab
-#     global I
-#     global top
-#     I.append(I[top-1])  
-#     top+=1
-# def end():
-#     global top
-#     print("end: top: "+str(top))
-#     top-=1
-
-# def find(name:str):
-#     global pile 
-    
-#     for i in range (len(pile)-1,-1,-1):  
-    
-#         if name in pile[i]:
-            
-#             return pile[i][name] 
-#     raise Exception(name +" pas trouvé")
 def find(name:str,t:str):
     global pile 
     
@@ -49,6 +30,7 @@ def find(name:str,t:str):
             
             return pile[i][name] 
     raise Exception(name +" pas trouvé")
+
 def declare(name:str,t:str):
     global pile 
     
@@ -60,46 +42,6 @@ def declare(name:str,t:str):
     s.type_sym=t
     pile[len(pile)-1][name]= s
     return s
-    
-# def declare(name:str,type:str):
-#     global pile 
-    
-#     if name in pile[len(pile)-1] :
-
-#         raise Exception("la variable "+name+" existe déja ")
-#     s=sym(name)
-#     pile[len(pile)-1][name]= s
-#     return s
-
-# def declare(name:str):
-#     global tab
-#     global I
-#     global top 
-#     print("top declar "+str(top))
-#     print("name : "+name)
-#     indice_fin_T=I[top-1]
-#     indice_debut_T=I[top-2]
-   
-#     for i in range(indice_debut_T,indice_fin_T,+1):
-#             if tab[i]==name:
-#                  raise Exception("name existe déjà")
-#     s=sym(name)
-#     tab.append(s)
-#     I[top-1] +=1
-#     return s
-
-# def find(name:str):
-
-    
-#     i= I[top-1]-1
-#     print("top: "+str(top))
-#     while i>=0:
-#         print(name, "==", tab[i].name, "???"+" i=: "+str(i))
-#         if tab[i].name == name:
-#             return tab[i]
-#         i=i-1
-#     raise Exception("name pas trouvé")
- 
 
 def anasem():
     global nbVar
@@ -146,7 +88,6 @@ def semnode(N : asyn.nd) :
             s.nb_args=len(N.enfants)-1   
             nbVar = 0
             begin()
-            #boucle sur les enfants
             for enfant in N.enfants :
                 semnode(enfant)
             end()

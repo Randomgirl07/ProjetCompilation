@@ -1,10 +1,5 @@
 import analyse_lexicale as al
-# nodes=["nd_eof","nd_const","nd_ident","nd_plus","nd_moins","nd_multi","nd_div","nd_modulo","nd_and","nd_or","nd_ref",
-# "nd_not","nd_equal","nd_not_equal","nd_low","nd_gre","nd_leq","nd_geq","nd_bra_open","nd_bra_close","nd_appel",
-# "nd_cur_open","nd_cur_close","nd_semicolon","nd_affect","nd_adress","nd_int","nd_void","nd_return","nd_cond","nd_loop","nd_seq",
-# "nd_continue","nd_break","nd_send","nd_debug","nd_receive","nd_comma","nd_sub","nd_add","nd_block","nd_drop","nd_decl","nd_target"]
 
-        
 class op_element : 
     prio : int
     parg : int

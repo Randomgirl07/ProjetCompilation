@@ -1,7 +1,7 @@
 import analyse_semantique as asem
 def optim():
     A = asem.anasem()
-    #optimisation_arbre(A)    
+    optimisation_arbre(A)    
     return A
 def optimisation_arbre(A):
     
