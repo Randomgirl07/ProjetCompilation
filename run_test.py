@@ -1,7 +1,7 @@
 import subprocess
 import os
 PYTHON_EXE_PATH = r"C:\Users\user\AppData\Local\Programs\Python\Python313\python.exe"
-CODE_GENERATOR_SCRIPT = r"c:\Users\user\Desktop\compilation\main.py"
+CODE_GENERATOR_SCRIPT = r".\main.py"
 MSM_DIRECTORY = r"c:\Users\user\Desktop\compilation\msm"
 MSM_EXE = "./msm/msm.exe" 
 EXPECTED_OUTPUT = """1
