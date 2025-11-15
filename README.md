@@ -27,7 +27,7 @@ Pour que le script de test fonctionne correctement, vous devez **impérativement
 
 Ouvrez le fichier run_tests.py et modifiez les variables suivantes pour qu'elles correspondent à votre configuration locale :
 
-1. **PYTHON_EXE_PATH** : Le chemin absolu vers votre exécutable Python.  
+1. **PYTHON_EXE_PATH** : Le chemin absolu vers votre exécutable Python.
 
 2. **CODE_GENERATOR_SCRIPT** : Le chemin absolu vers le script principal de génération de code **main.py.**(si la structure du projet a été conservé pas besoin de le changer car on se moment on a le chemin relatif)
 3. **MSM_DIRECTORY** : Le chemin absolu vers le dossier contenant le compilateur msm.exe.
