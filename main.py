@@ -9,7 +9,7 @@ al.init(r".\lib.txt")
 asem.begin()
 while (al.T.type_token!="tok_eof"):
     gen.gencode()
-al.init(r".\temp.txt")
+al.init(r".\test.txt")
 while (al.T.type_token!="tok_eof"):
     gen.gencode()
 asem.end()

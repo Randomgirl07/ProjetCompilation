@@ -23,9 +23,8 @@ def run_test_suite():
         generation_process = subprocess.run(
             [PYTHON_EXE_PATH, CODE_GENERATOR_SCRIPT],
             capture_output=True,
-            text=True, # Pour obtenir la sortie en tant que chaîne de caractères
+            text=True, 
             check=True,
-            encoding='utf-8' # Assure un encodage cohérent
         )
         
         generated_code = generation_process.stdout
@@ -36,12 +35,11 @@ def run_test_suite():
 
         compilation_process = subprocess.run(
             [MSM_EXE],
-            input=generated_code, # C'est l'équivalent du "pipe" (|)
+            input=generated_code, 
             capture_output=True,
             text=True,
             check=True,
-            encoding='utf-8',
-            cwd=MSM_DIRECTORY # Très important !
+            cwd=MSM_DIRECTORY 
         )
         
         actual_output = compilation_process.stdout
@@ -70,11 +68,9 @@ def run_test_suite():
 
         
     except subprocess.CalledProcessError as e:
-        # Cette erreur se produit si un des scripts (main.py ou msm.exe)
-        # se termine avec une erreur.
+       
         print(f"\nERREUR CRITIQUE : Une commande a échoué.")
         print(f"Commande : '{' '.join(e.cmd)}'")
 
-# Point d'entrée du script
 if __name__ == "__main__":
     run_test_suite()
